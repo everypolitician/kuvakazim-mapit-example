@@ -25,7 +25,7 @@
     <% @areas.each do |id, area| %>
 
       <li>
-        <h3><a href="http://mapit.mysociety.org/area/<%= id %>.html"><%= area[:name] %></a></h3>
+        <h3><a href="<%= url "/area/#{id}" %>"><%= area[:name] %></a></h3>
         <p>
         ID <%= id %>, <%= area[:type_name] %>
       <small>(<%= area[:type] %>)</small>,

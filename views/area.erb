@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+<style>
+#map-box {
+  width: 50%;
+  float: right;
+  padding-left: 20px;
+}
+#raw {
+  width: 50%;
+  float: left;
+}
+#raw pre {
+  background-color: #eee;
+  padding: 10px;
+}
+pre {
+  height: auto;
+  overflow: auto;
+  background-color: #eeeeee;
+  word-break: normal !important;
+  word-wrap: normal !important;
+  white-space: pre !important;
+}
+</style>
+
+<h1><a href="http://mapit.mysociety.org/area/<%= @area[:id] %>.html"><%= @area[:name] %></a></h1>
+
+<ul>
+  <li>ID: <%= @area[:id] %></li>
+  <li>Type: <%= @area[:type_name] %> (<%= @area[:type] %>)</li>
+  <li>Country: <%= @area[:country_name] %></li>
+</ul>
+
+<div id="raw">
+  <h3>Raw Mapit JSON</h3>
+  <pre><code><%= JSON.pretty_generate(@area) %></code></pre>
+</div>
+
+<div id="map-box">
+  <h3>Map</h3>
+  <div id="map" data-area-id="<%= @area[:id] %>"></div>
+</div>
+
+<script>
+var $map = $('#map');
+
+var xhr = $.get('http://mapit.mysociety.org/area/' + $map.data('area-id') + '.geojson')
+
+xhr.success(function(data) {
+  $map.height('400px');
+  var map = L.map($map[0]);
+  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 18,
+      id: 'hecticjeff.map-7vnd29ft',
+      accessToken: 'pk.eyJ1IjoiaGVjdGljamVmZiIsImEiOiIzT2VRUHdJIn0.2LsG7WCp7ZzhSGtjokYJVg'
+  }).addTo(map);
+  var geojson = L.geoJson(data);
+  geojson.addTo(map);
+  map.fitBounds(geojson.getBounds());
+});
+
+xhr.error(function() {
+  $('#map-box').remove();
+});
+
+</script>

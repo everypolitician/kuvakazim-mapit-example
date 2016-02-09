@@ -56,3 +56,9 @@ get '/' do
   end
   render_into_jekyll_layout erb(:index)
 end
+
+get '/area/:area_id' do
+  url = "http://mapit.mysociety.org/area/#{params[:area_id]}"
+  @area = JSON.parse(open(url).read, symbolize_names: true)
+  render_into_jekyll_layout erb(:area)
+end
