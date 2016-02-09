@@ -1,0 +1,3 @@
+[submodule "kuvakazim"]
+	path = kuvakazim
+	url = https://github.com/mysociety/kuvakazim
