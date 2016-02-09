@@ -1,0 +1,36 @@
+<h1>Search for your local areas</h1>
+
+<div class="lookup-form">
+
+  <form action="<%= url '/' %>" method="get">
+    <label for="postcode">Postcode</label>
+    <input type="text" name="postcode" placeholder="e.g BS1 5TR" value="<%= @postcode %>">
+    <input type="submit" value="Look up">
+  </form>
+
+</div>
+
+<% if @areas %>
+
+  <hr>
+
+  <h2>Results</h2>
+
+  <ol class="area_list">
+
+    <% @areas.each do |id, area| %>
+
+      <li>
+        <h3><a href="http://mapit.mysociety.org/area/<%= id %>.html"><%= area[:name] %></a></h3>
+        <p>
+        ID <%= id %>, <%= area[:type_name] %>
+      <small>(<%= area[:type] %>)</small>,
+      <%= area[:country_name] %>
+        </p>
+      </li>
+
+    <% end %>
+
+  </ol>
+
+<% end %>
