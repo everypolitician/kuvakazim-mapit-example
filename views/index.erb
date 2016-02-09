@@ -2,6 +2,10 @@
 
 <div class="lookup-form">
 
+  <% if @error %>
+    <p class="error">Error: <%= @error %></p>
+  <% end %>
+
   <form action="<%= url '/' %>" method="get">
     <label for="postcode">Postcode</label>
     <input type="text" name="postcode" placeholder="e.g BS1 5TR" value="<%= @postcode %>">

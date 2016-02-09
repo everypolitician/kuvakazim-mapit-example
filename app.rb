@@ -44,11 +44,15 @@ helpers do
 end
 
 get '/' do
-  if params[:postcode]
-    @postcode = params[:postcode]
-    url = "http://mapit.mysociety.org/postcode/#{URI.encode_www_form_component(@postcode)}"
-    response = JSON.parse(open(url).read, symbolize_names: true)
-    @areas = response[:areas]
+  begin
+    if params[:postcode] && params[:postcode] != ''
+      @postcode = params[:postcode]
+      url = "http://mapit.mysociety.org/postcode/#{URI.encode_www_form_component(@postcode)}"
+      response = JSON.parse(open(url).read, symbolize_names: true)
+      @areas = response[:areas]
+    end
+  rescue OpenURI::HTTPError => e
+    @error = "Unknown postcode"
   end
   render_into_jekyll_layout erb(:index)
 end
