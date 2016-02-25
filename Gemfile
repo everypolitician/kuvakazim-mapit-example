@@ -1,9 +1,11 @@
 if File.exists?('kuvakazim/Gemfile') then
-  eval File.read('kuvakazim/Gemfile'), nil, 'Gemfile'
+  eval_gemfile('kuvakazim/Gemfile')
 end
 
 ruby '2.2.4'
 
-gem 'sinatra'
-gem 'puma'
-
+source 'https://rubygems.org' do
+  gem 'sinatra'
+  gem 'puma'
+  gem 'sinatra-jekyll', git: 'https://github.com/theyworkforyou/sinatra-jekyll', branch: 'master'
+end
